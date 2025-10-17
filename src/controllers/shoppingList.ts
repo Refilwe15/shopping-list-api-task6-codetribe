@@ -36,7 +36,6 @@ export const updateItemById = (
   const itemIndex = shoppingList.findIndex((item) => item.id === id);
   if (itemIndex === -1) return undefined;
 
-  // Update only provided fields
   if (name) shoppingList[itemIndex].name = name;
   if (quantity && quantity > 0) shoppingList[itemIndex].quantity = quantity;
   if (price && price > 0) shoppingList[itemIndex].price = price;
@@ -44,7 +43,15 @@ export const updateItemById = (
   return shoppingList[itemIndex];
 };
 
-// (Optional) Reset list for testing
+// Delete item by ID
+export const deleteItemById = (id: number): boolean => {
+  const index = shoppingList.findIndex((item) => item.id === id);
+  if (index === -1) return false;
+  shoppingList.splice(index, 1);
+  return true;
+};
+
+// Reset list (for testing)
 export const resetShoppingList = (): void => {
   shoppingList = [];
   currentId = 1;
