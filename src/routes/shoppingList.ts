@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { getShoppingList, getItemById, addItem } from "../controllers/shoppingList";
+import { getShoppingList, getItemById, addItem, updateItemById } from "../controllers/shoppingList";
 
-// http://localhost:4000/shoppinglist
+// http://localhost:3000/shoppinglist
 export const shoppingListRoute = async (req: IncomingMessage, res: ServerResponse) => {
   if (req.url?.startsWith("/shoppinglist")) {
     const parts = req.url.split("/");
@@ -74,7 +74,35 @@ export const shoppingListRoute = async (req: IncomingMessage, res: ServerRespons
       return;
     }
 
-    // method not allowed
+    // PUT update item by ID
+    if (req.method === "PUT" && id) {
+      let body = "";
+      req.on("data", (chunk) => {
+        body += chunk.toString();
+      });
+
+      req.on("end", () => {
+        try {
+          const { name, quantity, price } = JSON.parse(body);
+          const updatedItem = updateItemById(id, name, quantity, price);
+
+          if (!updatedItem) {
+            res.writeHead(404, { "content-type": "application/json" });
+            res.end(JSON.stringify({ error: "Item not found" }));
+            return;
+          }
+
+          res.writeHead(200, { "content-type": "application/json" });
+          res.end(JSON.stringify(updatedItem));
+        } catch (error) {
+          res.writeHead(400, { "content-type": "application/json" });
+          res.end(JSON.stringify({ error: "Invalid JSON payload" }));
+        }
+      });
+      return;
+    }
+
+    // Method not allowed
     res.writeHead(405, { "content-type": "application/json" });
     res.end(JSON.stringify({ error: "Method not allowed" }));
   }
