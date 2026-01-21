@@ -1,7 +1,7 @@
 import http, { IncomingMessage, ServerResponse } from "http";
 import { shoppingListRoute } from "./routes/shoppingList";
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const requestListener = (req: IncomingMessage, res: ServerResponse) => {
   if (req.url?.startsWith("/shoppinglist")) {
