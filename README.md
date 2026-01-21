@@ -23,3 +23,46 @@ cd shopping-list-api-task6-codetribe
 
 npm install
 npm run dev
+
+### Routes For TESTING
+
+## ADDING ITEM
+
+POST
+
+http://localhost:3000/shoppinglist/
+
+{
+  "name": "Bread",
+  "quantity": 1,
+  "price": 12
+}
+
+## GETTING ITEM BY ID
+
+GET
+
+http://localhost:3000/shoppinglist/
+
+
+## Update item by ID
+
+PUT
+
+http://localhost:3000/shoppinglist/1
+
+## DELETE ITEM BY ID
+
+DELETE
+
+http://localhost:3000/shoppinglist/1
+
+## GET ALL ITEMS
+
+GET
+
+http://localhost:3000/shoppinglist
+
+
+
+
